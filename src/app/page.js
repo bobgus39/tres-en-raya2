@@ -4,39 +4,91 @@ import { useState } from 'react';
 
 export default function Home() {
     const [board, setBoard] = useState(Array(9).fill(null)); // Estado del tablero
-    const [isPlayerX, setIsPlayerX] = useState(true); // true = jugador X, false = jugador O
-    const [winner, setWinner] = useState(null); // 'X', 'O' o 'draw'
+    const [isPlayerTurn, setIsPlayerTurn] = useState(true); // true = jugador X, false = jugador O
+    //const [ranking, setRanking] = useState({ playerWins: 0, aiWins: 0, draws: 0 }); // 'X', 'O' o 'draw'
     const [gameStatus, setGameStatus] = useState('Juego en progreso'); // Estado del juego
+const checkWinner = (board) => {
+    const winningCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Filas
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columnas
+        [0, 4, 8], [2, 4, 6] // Diagonales
+    ];
+// Comprueba si hay un ganador
+    for (let combination of winningCombinations) {
+        const [a, b, c] = combination;
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+            console.log('board[a]',board[a]);
+            return board[a] ; // Retorna 'X' o 'O'
+        }
+    }
 
-    // Manejar el clic en una celda
-    const handleCellClick = async (index) => {
-        if (board[index] || winner) return; // No hacer nada si la celda ya está ocupada o hay un ganador
+    if (board.every(cell => cell !== null)) {// Comprueba si hay un empate mediante el tablero lleno
+        
+        return  'draw' ; // Empate
+    }
 
-        const newBoard = [...board];
-        newBoard[index] = isPlayerX ? 'X' : 'O'; // Colocar 'X' o 'O' según el turno
+    return  null ; // No hay ganador
+
+    
+};
+
+const handleGameEnd = async (winner) => {
+ 
+ if (winner === 'X') {
+    
+    setGameStatus('¡Ganaste!');
+} else if (winner === 'O') {
+    
+    setGameStatus('¡La IA ganó!');
+} else {
+    
+    setGameStatus('¡Empate!');
+}
+}
+const handleCellClick = async (index) => {
+    if (board[index] || !isPlayerTurn) return;
+    const newBoard = [...board];
+
+    newBoard[index] = 'X';
+    setBoard(newBoard);
+
+    const winner = checkWinner(newBoard);
+
+    if (winner) {
+        handleGameEnd(winner);
+        return;
+    }
+
+    setIsPlayerTurn(false);
+
+    const response = await fetch('/api/move', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ board: newBoard }),
+    });
+
+    const { move } = await response.json();
+
+    if (move !== null) {
+        newBoard[move] = 'O';
         setBoard(newBoard);
 
-        // Verificar si hay un ganador
-        const response = await fetch('/api/check-winner', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ board: newBoard }),
-        });
-        const data = await response.json();
-console.log(data);
-        if (data.winner) {
-            setWinner(data.winner);
-            setGameStatus(data.winner === 'X' ? '¡Ganaste!' : data.winner === 'O'? '¡La IA ganó!': data.winner === 'draw'?'¡Empate!':'error');
-        } else {
-            setIsPlayerX(!isPlayerX); // Cambiar el turno
-        }
-    };
+        const aiWinner = checkWinner(newBoard);
 
+        if (aiWinner) {
+            handleGameEnd(aiWinner);
+        } else {
+            setIsPlayerTurn(true);
+        }
+          
+        }
+    }
+    
     // Reiniciar el juego
     const resetGame = () => {
         setBoard(Array(9).fill(null));
-        setIsPlayerX(true);
-        setWinner(null);
+        setIsPlayerTurn(true);
+        //setWinner(null);
         setGameStatus('Juego en progreso');
     };
 
