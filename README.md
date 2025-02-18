@@ -30,19 +30,17 @@ This is a simple implementation of the classic Tic-Tac-Toe game, also known as "
    cd tres-en-raya2
 
 2. **Deploy frontend**:
-
+```bash
    npm install
-
    npm run dev 
- 
+ ```
 
 3. **Deploy backend**:
-
+```bash
     cd backend
-
     npm install
-
     node server.js 
+```
 
 ## Usage
 
