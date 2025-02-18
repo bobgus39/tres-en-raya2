@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Tres en Raya (Tic-Tac-Toe) Game
 
-## Getting Started
+This is a simple implementation of the classic Tic-Tac-Toe game, also known as "Tres en Raya." The game features a web-based interface built with React and Tailwind CSS, and a backend server to manage game logic and ranking.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Play Tic-Tac-Toe against an AI opponent.
+- Selectable difficulty levels: Easy, Medium, Hard.
+- Real-time game status updates.
+- Ranking system to track wins, draws, and losses.
+- Responsive design for various screen sizes.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Structure
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- `/tres-en-raya2/backend`: Contains the backend server code.
+- `/tres-en-raya2`: Contains the React-based frontend code.
+- `start.bat`: Batch script to start both frontend and backend servers on Windows.
+- `start.sh`: Shell script to start both frontend and backend servers on Unix-based systems.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Prerequisites
 
-## Learn More
+- Node.js and npm installed on your machine.
+- A modern web browser to run the frontend application.
 
-To learn more about Next.js, take a look at the following resources:
+## Setup and Installation for windows
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/bobgus39/tres-en-raya2.git
+   cd tres-en-raya2
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Deploy frontend**:
 
-## Deploy on Vercel
+   npm install
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   npm run dev 
+ 
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. **deploy backend**:
+
+    cd backend
+
+    npm install
+
+    node server.js 
+
+## Usage
+
+1. Open your web browser and navigate to http://localhost:3000 to access the game interface.
+2. Play the game by clicking on the cells in the grid.
+3. Select the difficulty level from the dropdown menu.
+4. View the ranking table to see your performance against the AI.
+5. Click the "Reiniciar Juego" button to restart the game.
+
+## Acknowledgments
+
+- Inspired by the classic game of Tic-Tac-Toe.
+- Built using Next.js and Node.js.
+
