@@ -122,6 +122,7 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center space-y-4 p-6">
       <h1 className="text-2xl font-bold mt-4">Tres en Raya</h1>
       <h2 className="">{gameStatus}</h2>
+      {/*<p>Le toca jugar a {!isPlayerTurn?'O':'X'}</p>*/}
 
       {/* Tablero del juego */}
       <div className="grid grid-cols-3 gap-1 w-[310px]">
